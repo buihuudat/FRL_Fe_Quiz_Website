@@ -23,26 +23,25 @@ const AdminLayout = () => {
     checkAuth();
   }, [navigate, dispatch]);
 
-  return <h1>Locked...</h1>;
-
-  // return isLoading ? (
-  //   <h1>Loading...</h1>
-  // ) : (
-  //   <div className="container">
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         flexDirection: "row",
-  //         paddingTop: "1rem",
-  //       }}
-  //     >
-  //       <SideBar />
-  //       <div style={{ flex: 1, paddingLeft: "250px" }}>
-  //         <Outlet />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  return isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
+    <div className="container">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          paddingTop: "1rem",
+        }}
+      >
+        <SideBar />
+        <div style={{ flex: 1, paddingLeft: "250px" }}>
+          {/* <Outlet /> */}
+          <h1>UPGRATING...</h1>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AdminLayout;
