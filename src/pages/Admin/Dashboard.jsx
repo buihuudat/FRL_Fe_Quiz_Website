@@ -1,33 +1,42 @@
 import { useEffect, useState } from "react";
 import "./styles.css";
 import { quizAttemptApi } from "../../utils/apis/quizAttemptApi";
+import { quizApi } from "../../utils/apis/quizApi";
+import { userApi } from "../../utils/apis/userApi";
 
 const Dashboard = () => {
   const [topRank, setTopRank] = useState([]);
-  useEffect(() => {
-    const getRank = async () => {
-      const result = await quizAttemptApi.getAllQuizAttempts();
-      setTopRank(result);
-    };
-    getRank();
-  }, []);
+  const [users, setUsers] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
 
-  console.log(topRank);
+  useEffect(() => {
+    const fetchData = async () => {
+      const [topRank, users, quizzes] = await Promise.all([
+        quizAttemptApi.getAllQuizAttempts(),
+        userApi.getUsers(),
+        quizApi.getAllQuizzes(),
+      ]);
+      setTopRank(topRank);
+      setUsers(users);
+      setQuizzes(quizzes);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="dashboard">
       <div className="boxs">
         <div className="box">
           <p>
-            67
+            {users.length}
             <br />
-            <span>Customers</span>
+            <span>Users</span>
           </p>
           <i className="fa fa-users box-icon"></i>
         </div>
         <div className="box">
           <p>
-            88
+            {quizzes.length}
             <br />
             <span>Quizes</span>
           </p>

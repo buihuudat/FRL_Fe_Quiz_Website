@@ -8,6 +8,7 @@ const QuizICard = (quiz) => {
   const handleEdit = () => {
     navigate(`/admin/quizzes/edit/${quiz._id}`);
   };
+
   const handleDelete = async () => {
     try {
       await toast.promise(quizApi.deleteQuiz(quiz._id), {
@@ -15,6 +16,7 @@ const QuizICard = (quiz) => {
         success: "Quiz deleted successfully",
         error: (error) => `Error: ${error.message}`,
       });
+      window.location.reload();
     } catch (error) {
       toast.error(error.message);
     }
@@ -29,16 +31,18 @@ const QuizICard = (quiz) => {
         border: "1px solid #ccc",
         borderRadius: "5px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+        width: "30%",
         minWidth: "400px",
         minHeight: "200px",
         gap: "15px",
+        justifyContent: "center",
       }}
     >
       <div
         style={{
           height: "50%",
           width: "100%",
-          background: "#ddd",
+          background: "rgba(255, 255, 255, 0.2)",
           textAlign: "center",
           borderRadius: "5px",
           padding: "10px",
@@ -63,7 +67,7 @@ const QuizICard = (quiz) => {
             key={answer}
             style={{
               padding: "10px",
-              minWidth: "40%",
+              width: "40%",
               border: "none",
               borderRadius: "5px",
               color: "white",

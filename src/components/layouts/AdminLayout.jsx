@@ -36,8 +36,7 @@ const AdminLayout = () => {
       >
         <SideBar />
         <div style={{ flex: 1, paddingLeft: "250px" }}>
-          {/* <Outlet /> */}
-          <h1>UPGRATING...</h1>
+          <Outlet />
         </div>
       </div>
     </div>

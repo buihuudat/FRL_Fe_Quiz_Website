@@ -18,7 +18,7 @@ const Home = () => {
             The versatile platform for Students to Warm up there Studies with
             Joy During Exams!
           </p>
-          <a className="banner_button" href="/quiz/">
+          <a className="banner_button" href="/quiz">
             Lets Do it!
           </a>
         </div>

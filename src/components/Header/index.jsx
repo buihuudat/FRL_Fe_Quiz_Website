@@ -6,11 +6,18 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <nav className="header">
-      <a href="/" className="logo">
-        Quizizz
-      </a>
+      <div className="logo">
+        <a href="/" className="">
+          Quizizz
+        </a>
+      </div>
       <ul className="links">
         <li>
           <a onClick={() => navigate("/")}>Home</a>
@@ -39,6 +46,23 @@ const Header = () => {
         {!user && (
           <button className="button" onClick={() => navigate("/login")}>
             Log in
+          </button>
+        )}
+
+        {user && (
+          <button
+            style={{
+              padding: 10,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+            onClick={handleLogout}
+          >
+            <i
+              className="fa-solid fa-arrow-right-from-bracket"
+              style={{ color: "red", width: "16px", fontSize: "1.5rem" }}
+            ></i>
           </button>
         )}
       </div>

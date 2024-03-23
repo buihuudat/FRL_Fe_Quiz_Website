@@ -12,6 +12,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import Quizzes from "./pages/Admin/Quizzes";
 import { Toaster } from "react-hot-toast";
 import FormQuiz from "./pages/Admin/FormQuiz";
+import User from "./pages/Admin/User";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/" element={<AdminLayout />}>
           <Route path="/admin" index element={<Dashboard />} />
           <Route path="/admin/quizzes" element={<Quizzes />} />
+          <Route path="/admin/users" element={<User />} />
           <Route path="/admin/quizzes/create" element={<FormQuiz />} />
           <Route path="/admin/quizzes/edit/:id" element={<FormQuiz />} />
         </Route>

@@ -3,10 +3,13 @@ import "./styles.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { authApi } from "../../utils/apis/authApi";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices/userSlice";
 
 const Auth = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [path, setPath] = useState("/login");
@@ -17,6 +20,7 @@ const Auth = () => {
   const [dataRegister, setDataRegister] = useState({
     name: "",
     email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -34,9 +38,10 @@ const Auth = () => {
     try {
       const res = await authApi.login(data);
       localStorage.setItem("token", res.token);
+      dispatch(setUser(res.user));
       navigate("/");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error("Login failed");
     }
   };
 
@@ -85,6 +90,17 @@ const Auth = () => {
                 setDataRegister((prev) => ({
                   ...prev,
                   email: e.target.value,
+                }))
+              }
+            />
+            <input
+              type="text"
+              required
+              placeholder="Username"
+              onChange={(e) =>
+                setDataRegister((prev) => ({
+                  ...prev,
+                  username: e.target.value,
                 }))
               }
             />

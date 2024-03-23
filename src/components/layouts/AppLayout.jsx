@@ -6,17 +6,17 @@ import { setUser } from "../../redux/slices/userSlice";
 
 const AppLayout = () => {
   const dispatch = useDispatch();
-  const checkAuth = async () => {
-    try {
-      const { user } = await authApi.checkAuth();
-      dispatch(setUser(user));
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { user } = await authApi.checkAuth();
+        dispatch(setUser(user));
+      } catch (error) {
+        console.log(error);
+      }
+    };
     checkAuth();
-  }, []);
+  }, [dispatch]);
   return (
     <main className="container">
       <Outlet />

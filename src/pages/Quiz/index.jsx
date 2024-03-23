@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { dataCategory, dataDifficulty } from "../../resources/data";
-import "./styles.css";
 import { quizApi } from "../../utils/apis/quizApi";
+import { quizAttemptApi } from "../../utils/apis/quizAttemptApi";
+import { useSelector } from "react-redux";
+import "./styles.css";
 
 const Quiz = () => {
   const [initialStart, setInitialStart] = useState({
@@ -17,6 +19,10 @@ const Quiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [time, setTime] = useState(initialStart.time);
   const [canCheck, setCanCheck] = useState(false);
+  const [topRank, setTopRank] = useState([]);
+
+  const user = useSelector((state) => state.user.user);
+  let numberCorrect = 0;
 
   useEffect(() => {
     if (time === 0) {
@@ -27,6 +33,14 @@ const Quiz = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, [time]);
+
+  useEffect(() => {
+    const getRank = async () => {
+      const result = await quizAttemptApi.getAllQuizAttempts();
+      setTopRank(result);
+    };
+    getRank();
+  }, []);
 
   const startQuiz = async () => {
     restart();
@@ -43,6 +57,7 @@ const Quiz = () => {
   const checkAnswer = () => {
     if (quizzes[currentNumber].correctAnswers.includes(answerSelected)) {
       setCurrentScore(currentScore + quizzes[currentNumber].score);
+      numberCorrect++;
     }
     setTime(null);
     setCanCheck(true);
@@ -54,6 +69,7 @@ const Quiz = () => {
     setCanCheck(false);
     if (currentNumber + 1 === quizzes.length) {
       setCurrentRound(2);
+      updateUserScore();
     }
   };
   const restart = () => {
@@ -64,6 +80,14 @@ const Quiz = () => {
     setCurrentScore(0);
     setCurrentNumber(0);
     setCanCheck(false);
+  };
+
+  const updateUserScore = async () => {
+    try {
+      await quizAttemptApi.updateQuizAttempt(user._id, currentScore);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -217,28 +241,17 @@ const Quiz = () => {
               >
                 {currentScore}
               </h1>
-              <div className="rank-item">
-                <span className="final-rank">1st</span>
-                <span className="name">Long Tran</span>
-                <span className="core">2790</span>
-              </div>
-              <div className="rank-item">
-                <span className="final-rank">2st</span>
-                <span className="name">Quan Tran</span>
-                <span className="core">1490</span>
-              </div>
-              <div className="rank-item">
-                <span className="final-rank">3st</span>
-                <span className="name">No door</span>
-                <span className="core">990</span>
-              </div>
+
+              {topRank.map((rank, index) => (
+                <div key={index} className="rank-item">
+                  <span className="final-rank">{index + 1}</span>
+                  <span className="name">{rank.user.name}</span>
+                  <span className="core">{rank.score}</span>
+                </div>
+              ))}
             </div>
             <div className="score">
               <span className="score-text">Your score:</span>
-              <div>
-                <span className="final-score">0</span>
-                <span className="total-score">/10</span>
-              </div>
             </div>
             <button className="btn restart" onClick={restart}>
               Restart Quiz

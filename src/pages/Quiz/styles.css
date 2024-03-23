@@ -255,7 +255,7 @@ select {
   padding: 10px;
   background-color: var(--primary-color);
   border-radius: 50%;
-  width: 10%;
+  width: 40px;
   height: 40px;
   text-align: center;
   font-weight: 600;

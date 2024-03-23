@@ -5,7 +5,7 @@ export const quizAttemptApi = {
     axiosClient.post("/quizAttempt", { quizAttempt }),
   getAllQuizAttempts: () => axiosClient.get("/quizAttempt"),
   getQuizAttempt: (id) => axiosClient.get(`/quizAttempt/${id}`),
-  updateQuizAttempt: (id, quizAttempt) => {
-    return axiosClient.put(`/quizAttempt/${id}`, { quizAttempt });
+  updateQuizAttempt: (id, score) => {
+    return axiosClient.put(`/quizAttempt`, { id, score });
   },
 };

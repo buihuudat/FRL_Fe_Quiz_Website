@@ -23,7 +23,6 @@ const FormQuiz = () => {
   useEffect(() => {
     const getQuiz = async () => {
       const quiz = await quizApi.getQuiz(id);
-      console.log(quiz);
       setData(quiz);
     };
     if (id) getQuiz();
@@ -79,7 +78,6 @@ const FormQuiz = () => {
   };
 
   const handleEditQuiz = async () => {
-    console.log(data);
     try {
       await toast.promise(quizApi.updateQuiz(id, data), {
         loading: "Updating...",
@@ -290,9 +288,31 @@ const FormQuiz = () => {
               ))}
             </select>
           </div>
-          <button className="btn" onClick={id ? handleEditQuiz : handleAddQuiz}>
-            {id ? "Edit" : "Create"}
-          </button>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <button
+              className="btn"
+              onClick={id ? handleEditQuiz : handleAddQuiz}
+            >
+              {id ? "Edit" : "Create"}
+            </button>
+            <button
+              className="btn"
+              onClick={() => navigate("/admin/quizzes")}
+              style={{
+                background: "orange",
+              }}
+            >
+              Back
+            </button>
+          </div>
         </div>
       </div>
     </div>
